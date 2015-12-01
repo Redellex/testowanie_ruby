@@ -1,0 +1,27 @@
+#!/usr/bin/ruby -w
+
+require 'benchmark'
+require '../lib/bubble_sort'
+require '../lib/qsort'
+require '../lib/shell_sort'
+
+Tablica_losowa = (1..10000).map { rand }
+i = 100
+
+puts "\n"
+puts 'Quicksort 100 razy, wartosci listy losowane.'
+Benchmark.bmbm do |x|
+    x.report("10000 losowanych wartosci qsort") { i.times do ; qsort(Tablica_losowa); end }
+end
+
+puts "\n"
+puts 'Bubble_sort 100 razy, wartosci listy losowane.'
+Benchmark.bmbm do |x|
+    x.report("10000 losowanych wartosci bubble_sort") { i.times do ; bubble_sort(Tablica_losowa); end }
+end
+
+puts "\n"
+puts 'Shell_sort 100 razy, wartosci listy losowane.'
+Benchmark.bmbm do |x|
+    x.report("10000 losowanych wartosci shell_sort") { i.times do ; shell_sort(Tablica_losowa); end }
+end
