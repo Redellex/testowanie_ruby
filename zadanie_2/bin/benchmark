@@ -6,7 +6,7 @@ require '../lib/qsort'
 require '../lib/shell_sort'
 
 Tablica_losowa = (1..10000).map { rand }
-i = 100
+i = 10
 
 puts "\n"
 puts 'Quicksort 100 razy, wartosci listy losowane.'
