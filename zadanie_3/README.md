@@ -11,3 +11,6 @@
         -Benchmark
 
 Aby uruchomic testy wystarczy w katalogu glownym wpisac rspec.
+
+1. sudo apt-get install libncurses-dev
+2. sudo gem install curses
