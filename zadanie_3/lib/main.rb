@@ -1,13 +1,18 @@
 require 'curses'
 
+$value_x = 0
+$value_y = 0
+$which_value = 0
+$czy_zostal_wybrany_znak = false
+$zatwierdzona_opcja = 0
+
+
 def get_menus
     return [
         "Dodaj",
         "Odejmij",
         "Podziel",
-        "Pomnoz",
-        "Logartym",
-        "Calkowanie"
+        "Pomnoz"
     ]
 end
 
@@ -46,24 +51,88 @@ def close_box(box)
     box.close
 end
 
+def put_numbers(calc_box, position)
+    case $which_value
+    when 0
+        calc_box.setpos(1,(position + 1))
+        number = calc_box.getstr()
+        position += number.length + 1
+        $value_x = number.to_i
+        calc_box.addstr($value_x.to_s)
+        $which_value +=1
+        return position
+    when 1
+        if $czy_zostal_wybrany_znak
+            calc_box.setpos(1,(position + 1))
+            number = calc_box.getstr()
+            position += number.length + 1
+            $value_y = number.to_i
+            calc_box.addstr($value_y.to_s)
+            $which_value +=1
+        end
+        return position
+    else 
+        return position
+    end
+end
+
+def show_result(result_box, result)
+    result_box.setpos(1,1)
+    result_box.addstr(result.to_s)
+end
+
+def wybrana_opcja(y, calc_box)
+    case y
+    when 1
+        calc_box.setpos(1, 1 + $number_position)
+        calc_box.addstr(' + ')
+        $czy_zostal_wybrany_znak = true
+    when 2
+        calc_box.setpos(1, 1 + $number_position)
+        calc_box.addstr(' - ')
+        $czy_zostal_wybrany_znak = true
+    when 3
+        calc_box.setpos(1, 1 + $number_position)
+        calc_box.addstr(' / ')
+        $czy_zostal_wybrany_znak = true
+    when 4
+        calc_box.setpos(1, 1 + $number_position)
+        calc_box.addstr(' * ')
+        $czy_zostal_wybrany_znak = true
+    end
+end
+
 def initialize_menu(box)
     menupos = 1
     direction = 0
+    result = 0
+    number_position = 0
     draw_menu(1, box)
     menu_count = get_menus().length
-
+    calc_box = set_box(3,70, 35,15)
+    result_box = set_box(3,70,40,15)
     loop do
         input = box.getch
         box.clear
         box.box("|", "-")
-
+        calc_box.box("|", "-")
+        result_box.box("|","-")
+        show_result(result_box, result)
         case input
         when Curses::Key::UP
             direction = -1
         when Curses::Key::DOWN
             direction = 1
-        else
-            
+        when Curses::Key::ENTER
+            print "Wcisniety enter!"
+            calc_box.setpos(0,1)
+            calc_box.addstr("++++++++++++++++++++++++")
+            wybrana_opcja(menupos, calc_box, number_position)
+        when '0', '1', '2', '3', '4', '5', '6', '7' ,'8', '9'
+            direction = 0
+            number_position = put_numbers(calc_box, number_position)
+        else 
+            direction = 0
         end
 
         menupos = (menupos + direction) % (menu_count + 1)
@@ -79,14 +148,19 @@ def initialize_menu(box)
             end
             
             menupos = menupos + direction
+            if menupos == -1 
+                menupos=menu_count
+            end
         end
 
         box.setpos(15,15)
         box.addstr("Y value: #{menupos}")
         box.refresh
+        calc_box.refresh
+        result_box.refresh
         break if input == 27
     end
-    box.refresh
+    close_box(calc_box)
 end
 
 #Main:
