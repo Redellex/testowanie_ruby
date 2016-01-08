@@ -1,4 +1,5 @@
 require 'curses'
+require './calc.rb'
 
 $value_x = 0
 $value_y = 0
@@ -7,78 +8,17 @@ $czy_zostal_wybrany_znak = false
 $zatwierdzona_opcja = 0
 $result = 0
 
-def get_menus
-    return [
-        "Dodaj",
-        "Odejmij",
-        "Podziel",
-        "Pomnoz",
-        "Potegowanie",
-        "Silnia",
-        "Reset"
-    ]
-end
-
-def draw_menu(position, box)
-    x = box.maxx / 2
-    y = box.maxy / 2
-    left_margin = x - 2
-    menus = get_menus()
-    elements_count = menus.length
-    current_pos = 0
-
-    menus.each { |menu_name|
-        top_margin = y - (elements_count - current_pos)
-        box.setpos(top_margin, left_margin)
-
-        if current_pos == (position - 1)
-            box.addstr("> #{menu_name} <")
-        else
-            box.addstr("  #{menu_name}  ")
-        end
-
-        current_pos += 1
-    }
-end
-
-def sum(x,y)
-    return x+y
-end
-
-def multiplication(x,y)
-    return x*y
-end
-
-def divide(x,y)
-    if y == 0
-        return "Error"
-    end
-    return x/y
-end
-
-def diffrence(x,y)
-    return x-y
-end
-
-def power(x,y)
-    for i in 1..y
-        x = x*x
-    end
-    return x
-end
-
-def silnia(x)
-    if x < 2
-        return 1
-    end
-    return x*silnia(x-1)
-end
-
-def set_box(y1, x1, y2, x2)
-    win1 = Curses::Window.new(y1, x1, y2, x2)
-    win1.box("|", "-")
-    win1.refresh
-    return win1
+def reset(calc_box, result_box)
+    calc_box.clear
+    result_box.clear
+    calc_box.box("|", "-")
+    result_box.box("|", "-")
+    $value_x = 0
+    $value_y = 0
+    $which_value = 0
+    $czy_zostal_wybrany_znak = false
+    $zatwierdzona_opcja = 0
+    $result = 0
 end
 
 def close_box(box)
@@ -97,6 +37,7 @@ def put_numbers(calc_box, position)
         calc_box.addstr($value_x.to_s)
         $which_value +=1
         calc_box.refresh
+        $result = silnia($value_x)
         return position
     when 1
         if $czy_zostal_wybrany_znak
@@ -130,27 +71,27 @@ def do_calc()
         $result = divide($value_x, $value_y)
     when 4
         $result = multiplication($value_x, $value_y)
+    when 5
+        $result = power($value_x, $value_y)
     end
 end
 
 def wybrana_opcja(y, calc_box, number_position)
+    calc_box.setpos(1, 1 + number_position)
+    $czy_zostal_wybrany_znak = true
     case y
     when 1
-        calc_box.setpos(1, 1 + number_position)
         calc_box.addstr('+')
-        $czy_zostal_wybrany_znak = true
     when 2
-        calc_box.setpos(1, 1 + number_position)
         calc_box.addstr('-')
-        $czy_zostal_wybrany_znak = true
     when 3
-        calc_box.setpos(1, 1 + number_position)
         calc_box.addstr('/')
-        $czy_zostal_wybrany_znak = true
     when 4
-        calc_box.setpos(1, 1 + number_position)
         calc_box.addstr('*')
-        $czy_zostal_wybrany_znak = true
+    when 5
+        calc_box.addstr('^')
+    when 6
+        calc_box.addstr('!')
     end
     $zatwierdzona_opcja = y
 end
@@ -207,6 +148,9 @@ def initialize_menu(box)
         box.refresh
         calc_box.refresh
         result_box.refresh
+        if $zatwierdzona_opcja == 7
+            reset(calc_box, result_box)
+        end
         break if input == 27
     end
     close_box(calc_box)
