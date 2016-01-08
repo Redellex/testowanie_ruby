@@ -59,7 +59,7 @@ def diffrence(x,y)
 end
 
 def power(x,y)
-    if not y.is_a?
+    if not y.is_a? Integer
        return "Error, value not integer. "
     end
     if y == 0
@@ -82,7 +82,7 @@ def power(x,y)
 end
 
 def silnia(x)
-    if not x.is_a?
+    if not x.is_a? Integer
         return "Error, value not integer."
     end
     if x < 2

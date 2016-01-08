@@ -42,7 +42,7 @@ describe '#calc' do
       expect(divide(-1, 1)).to eq(-1)
   end
   it 'Checking if division function divide two floats correctly' do
-      expect(divide(1.5, 1.5)).to eq(2.25)
+      expect(divide(1.5, 1.5)).to eq(1)
   end
 
 
