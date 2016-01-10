@@ -1,27 +1,44 @@
 #!/usr/bin/ruby -w
 
 require 'benchmark'
-require '../lib/bubble_sort'
-require '../lib/qsort'
-require '../lib/shell_sort'
+require '../lib/calc.rb'
 
-Tablica_losowa = (1..10000).map { rand }
-i = 10
+Tablica_losowa_x = (1..1000).map { rand }
+Tablica_losowa_y = (1..1000).map { rand }
+i = 1000
 
 puts "\n"
-puts 'Quicksort 10 razy, wartosci listy losowane.'
+puts 'dodawanie 10000 razy, wartosci losowane.'
 Benchmark.bmbm do |x|
-    x.report("10000 losowanych wartosci qsort") { i.times do ; qsort(Tablica_losowa); end }
+    x.report("10000 losowanych wartosci dla funkcji sum") { for a in 0..(i-1); sum(Tablica_losowa_x[a], Tablica_losowa_y[a]); end }
 end
 
 puts "\n"
-puts 'Bubble_sort 10 razy, wartosci listy losowane.'
+puts 'Odejmowanie 10000 razy, wartosci losowane.'
 Benchmark.bmbm do |x|
-    x.report("10000 losowanych wartosci bubble_sort") { i.times do ; bubble_sort(Tablica_losowa); end }
+    x.report("10000 losowanych wartosci dla funkcji diffrence") { for a in 0..(i-1); diffrence(Tablica_losowa_x[a], Tablica_losowa_y[a]); end }
 end
 
 puts "\n"
-puts 'Shell_sort 10 razy, wartosci listy losowane.'
+puts 'Mnozenie 10000 razy, wartosci losowane.'
 Benchmark.bmbm do |x|
-    x.report("10000 losowanych wartosci shell_sort") { i.times do ; shell_sort(Tablica_losowa); end }
+    x.report("10000 losowanych wartosci dla funkcji multiplication") { for a in 0..(i-1); multiplication(Tablica_losowa_x[a], Tablica_losowa_y[a]); end }
+end
+
+puts "\n"
+puts 'Dzielenie 10000 razy, wartosci losowane.'
+Benchmark.bmbm do |x|
+    x.report("10000 losowanych wartosci dla funkcji divide") { for a in 0..(i-1); divide(Tablica_losowa_x[a], Tablica_losowa_y[a]); end }
+end
+
+puts "\n"
+puts 'Potegowanie 10000 razy, wartosci losowane.'
+Benchmark.bmbm do |x|
+    x.report("10000 losowanych wartosci dla funkcji power") { for a in 0..(i-1); power(Tablica_losowa_x[a], Tablica_losowa_y[a]); end }
+end
+
+puts "\n"
+puts 'Silnia 10000 razy, wartosci losowane.'
+Benchmark.bmbm do |x|
+    x.report("10000 losowanych wartosci dla funkcji Silnia") { for a in 0..(i-1); silnia(Tablica_losowa_x[a]); end }
 end

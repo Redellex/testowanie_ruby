@@ -9,6 +9,7 @@ $which_value = 0
 $czy_zostal_wybrany_znak = false
 $zatwierdzona_opcja = 0
 $result = 0
+$number_position = 0 
 
 def reset(calc_box, result_box)
     calc_box.clear
@@ -21,6 +22,7 @@ def reset(calc_box, result_box)
     $czy_zostal_wybrany_znak = false
     $zatwierdzona_opcja = 0
     $result = 0
+    $number_position = 0
 end
 
 def put_numbers(calc_box, position)
@@ -33,7 +35,6 @@ def put_numbers(calc_box, position)
         calc_box.addstr($value_x.to_s)
         $which_value +=1
         calc_box.refresh
-        $result = silnia($value_x)
         return position
     when 1
         if $czy_zostal_wybrany_znak
@@ -88,6 +89,7 @@ def wybrana_opcja(y, calc_box, number_position)
         calc_box.addstr('^')
     when 6
         calc_box.addstr('!')
+        $result = silnia($value_x)
     end
     $zatwierdzona_opcja = y
 end
@@ -95,7 +97,7 @@ end
 def initialize_menu(box)
     menupos = 1
     direction = 0
-    number_position = 0
+    $number_position = 0
     draw_menu(1, box)
     menu_count = get_menus().length
     calc_box = set_box(3,70, 35,15)
@@ -113,10 +115,15 @@ def initialize_menu(box)
         when Curses::Key::DOWN
             direction = 1
         when 'x'
-            wybrana_opcja(menupos, calc_box, number_position)
+            wybrana_opcja(menupos, calc_box, $number_position)
+            calc_box.refresh
+            result_box.refresh
+            direction = 0
         when '0', '1', '2', '3', '4', '5', '6', '7' ,'8', '9'
             direction = 0
-            number_position = put_numbers(calc_box, number_position)
+            $number_position = put_numbers(calc_box, $number_position)
+            calc_box.refresh
+            result_box.refresh
         else 
             direction = 0
         end
@@ -140,7 +147,6 @@ def initialize_menu(box)
         end
 
         box.setpos(15,15)
-        box.addstr("Y value: #{menupos}")
         box.refresh
         calc_box.refresh
         result_box.refresh

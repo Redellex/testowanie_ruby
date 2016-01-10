@@ -13,4 +13,6 @@ Spis tresci
 2. Zadanie.
 
   - [x] [Readme.md] (https://github.com/Redellex/testowanie_ruby/blob/master/zadanie_2/README.md)
-  
+ 
+ 3. Zadanie.
+    - [x] [Readme.md](https://github.com/Redellex/testowanie_ruby/blob/master/zadanie_3/README.md)
