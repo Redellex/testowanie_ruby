@@ -15,7 +15,8 @@
         -Benchmark
 
 #Przed uruchomieniem:
-    a) Nalezy zainstalowac libncurses-dev (dla jezyka C biblioteka curses). Nastepnie curses dla ruby. Ponizej sa podane polecenia
+    a) Nalezy zainstalowac libncurses-dev (dla jezyka C biblioteka curses). 
+    Nastepnie curses dla ruby. Ponizej sa podane polecenia
         -sudo apt-get install libncurses-dev
         -sudo gem install curses
     b) Program uruchamiamy poprzez wywolanie komendy ruby main.rb w katalogu lib,
@@ -26,6 +27,6 @@
 Aby uruchomic testy wystarczy w katalogu glownym wpisac rspec.
 
 #Autorzy
-    -[Pawel Sobocinski](https://github.com/Redellex/testowanie_ruby)
-    -[Amelia Blachuciak](https://github.com/erathiel/tar-2015)
-    -[Oskar Marcinkiewicz](https://github.com/BoskiOski/Tar)
+[Pawel Sobocinski](https://github.com/Redellex/testowanie_ruby)
+[Amelia Blachuciak](https://github.com/erathiel/tar-2015)
+[Oskar Marcinkiewicz](https://github.com/BoskiOski/Tar)
