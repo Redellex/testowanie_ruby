@@ -44,6 +44,9 @@ describe '#calc' do
   it 'Checking if division function divide two floats correctly' do
       expect(divide(1.5, 1.5)).to eq(1)
   end
+  it 'Checking if division function divide will write error, when divide by 0.' do
+      expect(divide(4, 0)).to eq("Error, don't divide by 0.")
+  end
 
 
   it 'Diffrence function should not raise error' do
@@ -64,13 +67,22 @@ describe '#calc' do
     expect {power(0, 0) }.not_to raise_error
   end
   it 'Power function should increase two integers correctly.' do
-    expect(power(1, 1)).to eq(1)
+    expect(power(2, 2)).to eq(4)
   end
   it 'Checking how power function will handle with negative numbers.' do
-      expect(power(-1, 1)).to eq(1)
+      expect(power(-1, 2)).to eq(1)
   end
   it 'Checking if power function increase two floats correctly' do
-      expect(diffrence(1.5, 2)).to eq(2.25)
+      expect(power(1.5, 2)).to eq(2.25)
+  end
+    it 'Checking if power function handle negative index.' do
+        expect(power(10, -2)).to eq(0.01)
+  end
+    it 'Checking if power function handle 0 as index.' do
+        expect(power(100, 0)).to eq(0)
+  end
+    it 'Checking if power function will return error message.' do
+        expect(power(100, 1.5)).to eq("Error, value not integer. ")
   end
 
 
@@ -78,12 +90,12 @@ describe '#calc' do
     expect {silnia(0)}.not_to raise_error
   end
   it 'Factorial should calculate correctly.' do
-    expect(power(4)).to eq(24)
+    expect(silnia(4)).to eq(24)
   end
   it 'Checking how factorial function will handle with negative number.' do
-      expect(power(-1)).to eq(1)
+      expect(silnia(-1)).to eq(1)
   end
   it 'Checking if factorial function raise user defined error.' do
-      expect(diffrence(1.5, 2)).to eq("Error, value not integer")
+      expect(silnia(1.5)).to eq("Error, value not integer.")
   end
 end

@@ -1,5 +1,7 @@
 require 'curses'
 require './calc.rb'
+require './menu.rb'
+require './help_func.rb'
 
 $value_x = 0
 $value_y = 0
@@ -19,12 +21,6 @@ def reset(calc_box, result_box)
     $czy_zostal_wybrany_znak = false
     $zatwierdzona_opcja = 0
     $result = 0
-end
-
-def close_box(box)
-    box.clear
-    box.refresh
-    box.close
 end
 
 def put_numbers(calc_box, position)
@@ -156,13 +152,12 @@ def initialize_menu(box)
     close_box(calc_box)
 end
 
-#Main:
-
 Curses.init_screen
 Curses.start_color
 begin
     win1 = set_box(0,0,1,1)
     win1.keypad= true
+    #Start "Main function."
     initialize_menu(win1)
 ensure
     close_box(win1)
